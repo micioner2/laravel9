@@ -11,8 +11,8 @@
 
         <section class="content">
           <div class="container-fluid">
-            <!-- <slot></slot> -->
-            <!-- <router-view /> -->
+            <slot name="inner" />
+           
           </div>
         </section>
         
@@ -31,12 +31,12 @@ import "../../../../node_modules/admin-lte/plugins/select2/css/select2.min.css"
 import 'datatables.net-responsive-bs4'
 // import 'datatables.net-responsive-bs'
 // import 'datatables.net-bs4'
-import Preloader from "../../dashboard/Preloader.vue"
-import ContentHeader from "../../dashboard/ContentHeader.vue"
-import Navbar from "../../dashboard/Navbar.vue";
-import Sidebar from "../../dashboard/Sidebar.vue";
-import Footer from "../../dashboard/Footer.vue";
-import ControlSidebar from "../../dashboard/ControlSidebar.vue"
+import Preloader from "./Preloader.vue"
+import ContentHeader from "./ContentHeader.vue"
+import Navbar from "./Navbar.vue";
+import Sidebar from "./Sidebar.vue";
+import Footer from "./Footer.vue";
+import ControlSidebar from "./ControlSidebar.vue"
 export default {
 
   name: "App",

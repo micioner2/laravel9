@@ -5,6 +5,7 @@ import {createWebHistory, createRouter} from "vue-router";
 import Login from "./app/auth/Login.vue";
 import AuthLayout from "./app/auth/Index.vue";
 import Dashboard from "./app/Index.vue";
+import Prueba from "./components/Prueba.vue";
 
 
 let routes = [
@@ -39,6 +40,14 @@ let routes = [
           },
         },
       ]
+    },
+
+    {
+      path:'/prueba',
+      components: {
+        default: Prueba,
+        inner: Prueba
+      }
     }
 ];
 
@@ -46,7 +55,6 @@ let routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  // base: 'configure-admin', <-- this does not work in vue 3
   routes: routes,
   linkActiveClass: 'active'
 });
@@ -56,12 +64,9 @@ router.beforeEach((to, from) => {
   const isHide = to.matched.some((record) => record.meta.hideForAuth);
 
 
-    if(isHide){
+    if(isHide && !window.Laravel.isLoggedin){
       return { name: 'login' }
-    }else if (isHide){
-      return { name: 'dashboard' }
     }
-    
   
 })
 
