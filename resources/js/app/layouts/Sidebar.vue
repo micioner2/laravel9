@@ -41,8 +41,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <router-link class="nav-link" to="/prueba">
-                                   <p>Laboratorios</p>
+                                <router-link class="nav-link" :to="{name:'prueba1'}">
+                                   <p>Prueba 1</p>
+                                </router-link>
+                            </li>
+                             <li class="nav-item">
+                                <router-link class="nav-link" :to="{name:'prueba2'}">
+                                   <p>Prueba 2</p>
                                 </router-link>
                             </li>
                         </ul>

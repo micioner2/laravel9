@@ -72,7 +72,7 @@
                         })
                         .then(response => {
                             if (response.data.success) {
-                                this.$router.go('/login')
+                                this.$router.go('/login');
                                 // this.$router.push({name: 'dashboard'});
                                 // window.location.href = '/dashboard';
                             } else {

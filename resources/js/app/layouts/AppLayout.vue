@@ -7,12 +7,11 @@
 
       <div class="content-wrapper">
         
-        <!-- <ContentHeader></ContentHeader> -->
+        <ContentHeader></ContentHeader>
 
         <section class="content">
           <div class="container-fluid">
-            <slot name="inner" />
-           
+            <slot></slot>           
           </div>
         </section>
         

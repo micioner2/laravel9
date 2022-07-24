@@ -57,7 +57,6 @@ dom.watch()
 
 
 
-
 const app = createApp(App);
 
 app.component("font-awesome-icon", FontAwesomeIcon);

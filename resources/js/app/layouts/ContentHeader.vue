@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Titulo de page</h1>
+                    <h1 class="m-0">{{title}}</h1>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6">
@@ -23,11 +23,14 @@
 </template>
 
 <script>
-    export default {
 
-    }
+import { mapState } from 'pinia';
+import {useTitle} from '../stores/title';
+
+export default {
+	computed:{
+		...mapState(useTitle, ['title']),
+	},
+}
+
 </script>
-
-<style>
-
-</style>
