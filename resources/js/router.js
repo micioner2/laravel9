@@ -7,9 +7,8 @@ import AuthLayout from "./app/auth/Index.vue";
 import NotFound from './app/pages/NotFound.vue'
 import Main from "./app/Index.vue";
 import Dashboard from "./components/Dashboard.vue";
-import Prueba1 from "./components/Prueba.vue";
+import Prueba1 from "./components/Prueba1.vue";
 import Prueba2 from "./components/Prueba2.vue";
-
 
 let routes = [
 
@@ -93,7 +92,7 @@ router.beforeEach((to, from) => {
   // const isAuth = to.matched.some((record) => record.meta.requiresAuth);
   const isHide = to.matched.some((record) => record.meta.hideForAuth);
 
-  if (isHide && !window.Laravel.isLoggedin) {
+  if (isHide) {
     return { name: 'login' }
   }
 })

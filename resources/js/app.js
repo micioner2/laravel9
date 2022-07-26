@@ -55,6 +55,8 @@ import "../../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css"
 library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
 dom.watch()
 
+axios.defaults.baseURL ='http://sistema.demo.com'
+
 
 
 const app = createApp(App);

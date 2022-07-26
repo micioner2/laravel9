@@ -2,10 +2,10 @@
 <div class="login-box">
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
-            <!-- <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a> -->
+            <a href="images/index2.html" class="h1"><b>Admin</b>LTE</a>
         </div>
         <div class="card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">Inicia sesión para iniciar tu sesión</p>
             <form>
                 <div class="input-group mb-3">
                     <input id="email" type="email" class="form-control" v-model="email" required autofocus placeholder="Enter your email">
@@ -24,17 +24,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
 
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block"  @click="handleSubmit">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block"  @click="handleSubmit">Ingresar</button>
                     </div>
 
                 </div>
@@ -73,7 +65,7 @@
                         .then(response => {
                             if (response.data.success) {
                                 this.$router.go('/login');
-                                // this.$router.push({name: 'dashboard'});
+                                // this.$router.push({name: 'login'});
                                 // window.location.href = '/dashboard';
                             } else {
                                 this.error = response.data.message

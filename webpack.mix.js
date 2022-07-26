@@ -11,7 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix
+    .setResourceRoot("")
+    .js('resources/js/app.js', 'public/assets/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
+    .sourceMaps('http://192.168.100.226/laravel9/public/');
