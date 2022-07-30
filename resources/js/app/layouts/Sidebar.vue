@@ -35,19 +35,19 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
-                                Registros
+                                Documentos
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <router-link class="nav-link" :to="{name:'prueba1'}">
-                                   <p>Prueba 1</p>
+                                <router-link class="nav-link" :to="{name:'comprobante'}">
+                                   <p>Comprobantes</p>
                                 </router-link>
                             </li>
                              <li class="nav-item">
-                                <router-link class="nav-link" :to="{name:'prueba2'}">
-                                   <p>Prueba 2</p>
+                                <router-link class="nav-link" :to="{name:'emision'}">
+                                   <p>Emitir</p>
                                 </router-link>
                             </li>
                         </ul>

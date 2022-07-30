@@ -7,8 +7,8 @@ import AuthLayout from "./app/auth/Index.vue";
 import NotFound from './app/pages/NotFound.vue'
 import Main from "./app/Index.vue";
 import Dashboard from "./components/Dashboard.vue";
-import Prueba1 from "./components/Prueba1.vue";
-import Prueba2 from "./components/Prueba2.vue";
+import Comprobante from "./components/sunat/comprobante/Index.vue";
+import Emision from "./components/sunat/Emision/Index.vue";
 
 let routes = [
 
@@ -57,20 +57,20 @@ let routes = [
     
 
       {
-        path: '/prueba1',
-        name: 'prueba1',
-        component: () => Prueba1,
+        path: '/comprobante',
+        name: 'comprobante',
+        component: () => Comprobante,
         meta:{
-          title:'Página de prueba 1'
+          title:'Comprobantes de Pago'
         }
       },
 
       {
-        path: '/prueba2',
-        name: 'prueba2',
-        component: () => Prueba2,
+        path: '/emision',
+        name: 'emision',
+        component: () => Emision,
         meta:{
-          title:'Página de prueba 2'
+          title:'Emitir'
         }
       }
     ]

@@ -1,20 +1,22 @@
 
 import {createApp} from 'vue';
 
-require('./bootstrap');
+// require('./bootstrap');
+
+window.$ = window.jQuery = require("jquery");
 
 
 import App from './App.vue';
 import axios from 'axios';
 import router from './router'
 
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import {dom, library} from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
-import {faFacebook, faGooglePlus} from '@fortawesome/free-brands-svg-icons';
+// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// import {dom, library} from '@fortawesome/fontawesome-svg-core';
+// import { fas } from '@fortawesome/free-solid-svg-icons'
+// import { fab } from '@fortawesome/free-brands-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
+// import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+// import {faFacebook, faGooglePlus} from '@fortawesome/free-brands-svg-icons';
 import {createPinia} from 'pinia'
 
 //import adminlte scripts
@@ -52,16 +54,21 @@ import "../../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-du
 import "../../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
 import "../../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css"
 
-library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
-dom.watch()
+// fontawesome
+// import "../../node_modules/font-awesome/css/all.css"
 
-axios.defaults.baseURL ='http://sistema.demo.com'
+
+// library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
+// dom.watch()
+
+axios.defaults.baseURL ='http://10.40.128.252'
+// axios.defaults.baseURL ='http://sistema.demo.com'
 
 
 
 const app = createApp(App);
 
-app.component("font-awesome-icon", FontAwesomeIcon);
+// app.component("font-awesome-icon", FontAwesomeIcon);
 app.config.globalProperties.$axios = axios;
 app.use(router);
 app.use(createPinia());
