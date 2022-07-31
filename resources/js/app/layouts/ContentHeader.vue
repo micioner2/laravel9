@@ -3,8 +3,8 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">{{title}}</h1>
+                <div class="col-sm-4">
+                    <h2 class="m-0 text-title-page">{{title}}</h2>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6">
@@ -38,3 +38,10 @@ export default {
 }
 
 </script>
+
+<style>
+.text-title-page{
+    font-size: 22px;
+    font-weight: normal !important;
+}
+</style>

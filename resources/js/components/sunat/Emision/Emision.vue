@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-lg-8 col-md-12 col-sm-12 col-12 offset-lg-2">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-12 offset-lg-1">
             <div class="card card-default">
         <div class="card-header">
             <div class="row">
@@ -66,7 +66,7 @@
                                         <option :value="1">DNI</option>
                                         <option :value="6">RUC</option>
                                     </select>
-                                    <input type="text" class="form-control col-8 form-control-sm" id="txt_documento" v-model="cliente.documento" @input="consultarDocumento" @keydown="handleInput">
+                                    <input type="text" class="form-control col-8 form-control-sm" id="txt_documento" maxlength="8" v-model="cliente.documento" @input="consultarDocumento" @keydown="handleInput">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-default my-group-button btn-sm" type="submit">
                                             <i class="icon-load" v-if="opcion_icono"></i>
@@ -132,39 +132,41 @@
                                 <tr>
                                     <th width="10%">CANT</th>
                                     <th width="10%">CÓDIGO</th>
-                                    <th width="60%">DESCRIPCIÓN</th>
+                                    <th width="50%">DESCRIPCIÓN</th>
                                     <th width="10%">P.UNIT</th>
                                     <th width="10%">TOTAL</th>
+                                    <th width="10%">OPCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">1</td>
-                                    <td>2</td>
-                                    <td>SACOS DE TELA MARCA CHECLITA 25021-T</td>
-                                    <td class="text-end">4</td>
-                                    <td class="text-end">5</td>
+                                <tr v-for="(item,index) in arrayCarrito" :key="index">
+                                    <td class="text-center" v-text="item.cantidad"></td>
+                                    <td v-text="item.codigo"></td>
+                                    <td v-text="item.descripcion"></td>
+                                    <td class="text-end" v-text="item.precio_unitario"></td>
+                                    <td class="text-end" v-text="item.total"></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></button> 
+                                            &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td class="text-center">1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td class="text-end">4</td>
-                                    <td class="text-end">5</td>
-                                </tr>
+                            
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td class="text-end" colspan="4">Ope. Gravada:</td>
-                                    <td class="text-end">250.00</td>
+                                    <td class="text-end">0.00</td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="4">IGV:</td>
-                                    <td class="text-end">25.00</td>
+                                    <td class="text-end">0.00</td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="4">Importe Total:</td>
-                                    <td class="text-end">225.00</td>
+                                    <td class="text-end">0.00</td>
                                 </tr>
                             </tfoot>
 
@@ -200,12 +202,17 @@
 import { ref } from '@vue/reactivity';
 import MoldaProducto from './ModalProducto.vue'
 import moment from 'moment';
+import {useCarrito} from '../../../app/stores/carrito';
 
 export default {
     components:{
         'modal-producto':MoldaProducto
     },
     setup(){
+        const store = useCarrito();
+
+         const {arrayCarrito}  = store
+
         const cliente = ref({
             tipo_documento:'1',
             documento:'',
@@ -226,13 +233,12 @@ export default {
 
         async function consultarDocumento (e) {
             // Validar el maximo de caracteres
-            let cant = e.target.value.length;
+            let cant = Number(e.target.value.length);
             let longitud = 8;
-            cant > longitud ? e.target.value = e.target.value.slice(0, longitud) : null
+
             // Validar que el texto ingresado sea solo numeros;
             e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
             // alerta
-            // cant >= 1 && cant <= 7 ? $('#txt_documento').addClass('is-invalid') : $('#txt_documento').removeClass('is-invalid')
             if(cant >= 1 && cant <= 7) {
                 $('#txt_documento').addClass('is-invalid');
                 opcion_text_alert_documento.value = true;
@@ -240,9 +246,9 @@ export default {
                 $('#txt_documento').removeClass('is-invalid');
                 opcion_text_alert_documento.value = false;
             }
-          
-            if(cant >= 8){
-                opcion_icono.value = true
+            // cant > longitud ? e.target.value = e.target.value.slice(0, longitud) : ''
+           if(cant >= longitud){
+            opcion_icono.value = true
                 var ruta = 'https://apiperu.dev/api/dni/'+cliente.value.documento+'?api_token=b7740b7d5eca9920a949834dab0f00cbeb4986c2b694562fec34a6d46e155da4';
                 const response = await fetch(ruta);
                 const data = await response.json();
@@ -250,13 +256,18 @@ export default {
                     if(data.success){
                         cliente.value = {...cliente.value,'nombre':data.data.nombre_completo, 'documento':cliente.value.documento,'direccion':data.data.direccion}
                         opcion_icono.value = false
+                    }else{
+                        opcion_icono.value = false
+                        alert("No pudimos obtener datos del DNI " +cliente.value.documento );
+                        cliente.value = {...cliente.value,'nombre':'','direccion':''}
                     } 
                 }, 1000);
-                
-            }else {
-                opcion_icono.value = false
+           
             }
-            
+
+        
+        
+         
         }
 
         const handleInput = (e) =>{
@@ -275,7 +286,7 @@ export default {
             opcion_text_alert_documento,
             cliente,
             comprobante,
-         
+            arrayCarrito,
             abirModal,
             consultarDocumento,
             handleInput
@@ -329,8 +340,12 @@ export default {
     font-weight: normal;
 }
 
-.table-producto thead{
+.table-producto thead, tfoot{
     border-top: 0.05em solid #eeeff0 !important;
+}
+
+.table-producto tfoot tr{
+    border:none !important;
 }
 
 
