@@ -46,7 +46,7 @@
 
                                 <div class="col-md-6 offset-md-6">
                                     <div class="form-group">
-                                       <input type="text" class="form-control form-control-sm" placeholder="Valor unitario" v-model="producto.valor_unitario" @input="calcularPrecioUnit"  @change="formatearNumero" />
+                                       <input type="text" class="form-control form-control-sm" placeholder="Valor unitario" id="valor_unitario" v-model="producto.valor_unitario" @input="calcularPrecioUnit" @change="formatearNumero" />
                                     </div>
                                 </div>
                                
@@ -57,7 +57,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" style="background:#fafafa;">IGV 18%</span>
                                             </div>
-                                             <input type="number" class="form-control form-control-sm text-end" placeholder="0.00" disabled :value="calcularIgvValorUnit" />
+                                             <input type="text" class="form-control form-control-sm text-end" placeholder="0.00" :disabled="!sin_igv"  :value="sin_igv ? calcularIgvValorUnit : 'Ope. Exonerada'" />
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                 <div class="col-md-6 offset-md-6">
                                     <div class="form-group">
                                         <div class="input-group mb-3">
-                                            <input type="number" class="form-control form-control-sm" placeholder="Precio unitario" v-model="producto.precio_unitario" @input="calcularValorUnit" @change="formatearNumero"/>
+                                            <input type="text" class="form-control form-control-sm" placeholder="Precio unitario (incluye IGV)" id="precio_unitario" :disabled="!sin_igv" v-model="producto.precio_unitario" @input="calcularValorUnit" @change="formatearNumero"/>
                                             <div class="input-group-append">
                                                 <span class="input-group-text" style="background:#fafbfc; border:none;"> <tooltip-igv /></span>
                                             </div>
@@ -139,9 +139,7 @@ export default {
         'tooltip-igv':TooltipIgv
     },
     setup(){
-        const cerrarModal = () =>{
-            $('#modal-ingreso-producto').modal('hide')
-        }
+
 
         const store = useCarrito();
 
@@ -157,16 +155,14 @@ export default {
             precio_unitario:''
         });
 
-
-        // const calcularPrecioUnit = computed(()=>{
-        //     let precio = Number(producto.value.valor_unitario);
-        //     let operacion = (precio + Number(calcularIgvValorUnit.value));
-        //     return (operacion).toFixed(3);
-        // })
+        
+        const sin_igv = computed(()=>{
+            return producto.value.tipo_operacion == '1001' ? true : false;
+        })
 
         const calcularValorUnit = (e) => {
             let precio = Number(e.target.value);
-            let operacion = (precio / 1.18);
+            let operacion =  sin_igv ? (precio / 1.18) : precio;
             producto.value.valor_unitario = (operacion).toFixed(3);
         }
 
@@ -179,7 +175,7 @@ export default {
 
         const calcularPrecioUnit = (e) => {
             let precio = Number(e.target.value);
-            let operacion = (precio + Number(calcularIgvValorUnit.value));
+            let operacion =  sin_igv ? (precio + Number(calcularIgvValorUnit.value)) : producto.value.valor_unitario ;
             producto.value.precio_unitario = (operacion).toFixed(3);
         }
 
@@ -222,12 +218,21 @@ export default {
                 'cantidad':item.cantidad,
                 'unidad_medida':item.unidad_medida,
                 'valor_unitario':Number(item.valor_unitario).toFixed(2),
-                'precio_unitario':Number(item.precio_unitario).toFixed(2),
+                'precio_unitario':Number(item.precio_unitario).toFixed(3),
                 'codigo':item.codigo,
                 'total':Number(Number(item.precio_unitario) * Number(item.cantidad)).toFixed(2)
             }
             store.agregarCarrito(data)
+            cerrarModal();
+        }
 
+        const cerrarModal = () =>{
+            $('#modal-ingreso-producto').modal('hide');
+            limpiar();
+        }
+        
+
+        function limpiar () {
             producto.value ={
                 id:1,
                 tipo_operacion:'1001',
@@ -238,9 +243,7 @@ export default {
                 valor_unitario:'',
                 precio_unitario:''
             };
-            cerrarModal();
         }
-        
 
 
         function toCurrency(string){
@@ -248,18 +251,15 @@ export default {
         }
    
         function formatearNumero(e){
-          //Reemplaxamos la coma por un punto y le asignamos presicion de 2 decimales.
-
+           
           if(e.target.value != ''){
             let val = parseFloat(e.target.value.replace(",",".")).toFixed(3);
-            //Aplicamos el formato deseado
             val = toCurrency(val);
-            //Actualizamos el valor
-            e.target.value= val;
+            let op = e.target.id;
+            op == 'valor_unitario' ? producto.value.valor_unitario = val : producto.value.precio_unitario = val;
           }
-           
-
         }
+
 
 
         return{
@@ -273,6 +273,7 @@ export default {
             calcularIgv,
             calcularTotal,
             formatearNumero,
+            sin_igv
         }
     }
 }

@@ -139,7 +139,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item,index) in arrayCarrito" :key="index">
+                                <tr v-for="(item,index) in store.arrayCarrito" :key="index">
                                     <td class="text-center" v-text="item.cantidad"></td>
                                     <td v-text="item.codigo"></td>
                                     <td v-text="item.descripcion"></td>
@@ -149,7 +149,7 @@
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></button> 
                                             &nbsp;&nbsp;
-                                            <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                                             <button type="button" class="btn btn-danger btn-xs" @click="store.deleteItem(index)"><i class="fa fa-times"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -158,15 +158,15 @@
                             <tfoot>
                                 <tr>
                                     <td class="text-end" colspan="4">Ope. Gravada:</td>
-                                    <td class="text-end">0.00</td>
+                                    <td class="text-end">{{(store.calcularOperacionGravada).toFixed(2)}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="4">IGV:</td>
-                                    <td class="text-end">0.00</td>
+                                    <td class="text-end">{{(store.calcularIgv).toFixed(2)}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="4">Importe Total:</td>
-                                    <td class="text-end">0.00</td>
+                                    <td class="text-end">{{store.calcularTotal}}</td>
                                 </tr>
                             </tfoot>
 
@@ -210,8 +210,6 @@ export default {
     },
     setup(){
         const store = useCarrito();
-
-         const {arrayCarrito}  = store
 
         const cliente = ref({
             tipo_documento:'1',
@@ -264,20 +262,16 @@ export default {
                 }, 1000);
            
             }
-
-        
-        
-         
         }
 
         const handleInput = (e) =>{
+
             let cant = e.target.value.length;
           
-            if(e.key === "Backspace"){
+            if(e.key === "Backspace" || e.key === "ArrowLeft"){
                 if(cant <= 8){
                     cliente.value = {...cliente.value,'nombre':'','direccion':''}
                 }
-                
             }
         }
         return {   
@@ -286,17 +280,23 @@ export default {
             opcion_text_alert_documento,
             cliente,
             comprobante,
-            arrayCarrito,
             abirModal,
             consultarDocumento,
-            handleInput
-
+            handleInput,
+            store,
         }
     }
 }
 </script>
 
+
+
+
+                          
+
+
 <style>
+                  
 
 .col-empresa-datos{
     margin-bottom: 25px;
