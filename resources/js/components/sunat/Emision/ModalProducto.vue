@@ -8,7 +8,7 @@
                             <div class="row">
                                 <div class="col-md-6 offset-md-3">
                                     <div class="form-group">
-                                        <select class="form-control form-control-sm" v-model="producto.tipo_operacion">
+                                        <select class="form-control form-control-sm" v-model="producto.tipo_operacion" @change="tipoOperacion">
                                             <option value="1001"> Operación Gravada</option>
                                             <option value="1003"> Operación Exonerada</option>
                                         </select>
@@ -155,6 +155,7 @@ export default {
             precio_unitario:''
         });
 
+
         
         const sin_igv = computed(()=>{
             return producto.value.tipo_operacion == '1001' ? true : false;
@@ -162,22 +163,31 @@ export default {
 
         const calcularValorUnit = (e) => {
             let precio = Number(e.target.value);
-            let operacion =  sin_igv ? (precio / 1.18) : precio;
+            let operacion = (precio / 1.18);
             producto.value.valor_unitario = (operacion).toFixed(3);
         }
 
         const calcularIgvValorUnit = computed(()=>{
             let precio = Number(producto.value.valor_unitario);
-            let operacion = (precio * 0.18);
+            let operacion =  (precio * 0.18); 
             return (operacion).toFixed(2);
         });
 
 
         const calcularPrecioUnit = (e) => {
-            let precio = Number(e.target.value);
-            let operacion =  sin_igv ? (precio + Number(calcularIgvValorUnit.value)) : producto.value.valor_unitario ;
-            producto.value.precio_unitario = (operacion).toFixed(3);
+            producto.value.precio_unitario = calcularPrecioUnitario.value;
         }
+
+        const tipoOperacion = () =>{
+            sin_igv.value ? producto.value.precio_unitario = calcularPrecioUnitario.value : producto.value.precio_unitario = producto.value.valor_unitario;
+        }
+
+
+        const calcularPrecioUnitario = computed(()=>{ 
+            let precio = Number(producto.value.valor_unitario);
+            let operacion = sin_igv.value ? (precio + Number(calcularIgvValorUnit.value)) : precio;
+            return (operacion).toFixed(3);
+        })
 
         const calcularOperacionGravada = computed(()=>{
             let precio = Number(producto.value.valor_unitario);
@@ -191,7 +201,7 @@ export default {
         const calcularIgv = computed(()=>{
             let igv = Number(calcularIgvValorUnit.value);
             let cantidad = Number(producto.value.cantidad);
-            let operacion = (cantidad * igv);
+            let operacion = sin_igv.value ? (cantidad * igv) : 0;
             return (operacion).toFixed(2);
         });
 
@@ -214,6 +224,7 @@ export default {
           
             // invokes function in the store:
             let data ={
+                'tipo_operacion':item.tipo_operacion,
                 'descripcion': item.descripcion,
                 'cantidad':item.cantidad,
                 'unidad_medida':item.unidad_medida,
@@ -273,7 +284,8 @@ export default {
             calcularIgv,
             calcularTotal,
             formatearNumero,
-            sin_igv
+            sin_igv,
+            tipoOperacion
         }
     }
 }

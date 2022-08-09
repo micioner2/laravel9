@@ -13,15 +13,21 @@ export const useCarrito = defineStore('carrito', {
             let array = this.arrayCarrito;
             let suma = 0;
             for (let index = 0; index < array.length; index++) {
-                suma += Number((array[index].precio_unitario / 1.18) * array[index].cantidad);
+                suma += array[index].tipo_operacion == '1001'? Number((array[index].precio_unitario / 1.18) * array[index].cantidad) :Number((array[index].precio_unitario) * array[index].cantidad) ;
             }
             return (suma);
         },
 
         calcularIgv(){
-            let total = this.calcularOperacionGravada;
-            let operacion = Number(total * 0.18);
-            return (operacion);
+            let array = this.arrayCarrito;
+            let suma = 0;
+            for (let index = 0; index < array.length; index++) {
+                if(array[index].tipo_operacion == '1001'){
+                    suma += Number(Number((array[index].precio_unitario / 1.18) * array[index].cantidad));
+                }
+            }
+            let operacion = (suma * 0.18);
+            return operacion;
         },
 
         calcularTotal(){

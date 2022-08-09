@@ -158,15 +158,15 @@
                             <tfoot>
                                 <tr>
                                     <td class="text-end" colspan="4">Ope. Gravada:</td>
-                                    <td class="text-end">{{(store.calcularOperacionGravada).toFixed(2)}}</td>
+                                    <td class="text-end">{{toCurrency((store.calcularOperacionGravada).toFixed(2))}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="4">IGV:</td>
-                                    <td class="text-end">{{(store.calcularIgv).toFixed(2)}}</td>
+                                    <td class="text-end">{{toCurrency((store.calcularIgv).toFixed(2))}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="4">Importe Total:</td>
-                                    <td class="text-end">{{store.calcularTotal}}</td>
+                                    <td class="text-end">{{toCurrency(store.calcularTotal)}}</td>
                                 </tr>
                             </tfoot>
 
@@ -274,6 +274,10 @@ export default {
                 }
             }
         }
+
+        function toCurrency(string){
+            return string.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        }
         return {   
             opcion_icono,
             max_length,
@@ -284,6 +288,7 @@ export default {
             consultarDocumento,
             handleInput,
             store,
+            toCurrency
         }
     }
 }
