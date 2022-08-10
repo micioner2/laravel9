@@ -38,7 +38,8 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Decripción Detallada" v-model="producto.descripcion" />
+                                <input type="text" class="form-control form-control-sm" placeholder="Decripción Detallada" id="txt_descripcion" v-model="producto.descripcion" @input="verificaDescripcion" />
+                                <span class="text-red span-text" id="span_descripcion"></span>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -46,7 +47,8 @@
 
                                 <div class="col-md-6 offset-md-6">
                                     <div class="form-group">
-                                       <input type="text" class="form-control form-control-sm" placeholder="Valor unitario" id="valor_unitario" v-model="producto.valor_unitario" @input="calcularPrecioUnit" @change="formatearNumero" />
+                                       <input type="text" class="form-control form-control-sm" placeholder="Valor unitario" id="txt_valor_unitario" v-model="producto.valor_unitario" @input="calcularPrecioUnit" @change="formatearNumero" />
+                                       <span class="text-red" id="span_valor_unitario"></span>
                                     </div>
                                 </div>
                                
@@ -57,19 +59,20 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" style="background:#fafafa;">IGV 18%</span>
                                             </div>
-                                             <input type="text" class="form-control form-control-sm text-end" placeholder="0.00" :disabled="!sin_igv"  :value="sin_igv ? calcularIgvValorUnit : 'Ope. Exonerada'" />
+                                             <input type="text" class="form-control form-control-sm text-end" placeholder="0.00" disabled  :value="sin_igv ? calcularIgvValorUnit : 'Ope. Exonerada'" />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 offset-md-6">
                                     <div class="form-group">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control form-control-sm" placeholder="Precio unitario (incluye IGV)" id="precio_unitario" :disabled="!sin_igv" v-model="producto.precio_unitario" @input="calcularValorUnit" @change="formatearNumero"/>
-                                            <div class="input-group-append">
+                                        <!-- <div class="input-group mb-3"> -->
+                                            <input type="text" class="form-control form-control-sm" placeholder="Precio unitario (incluye IGV)" id="txt_precio_unitario" :disabled="!sin_igv" v-model="producto.precio_unitario" @input="calcularValorUnit" @change="formatearNumero"/>
+                                            <span class="text-red" id="span_precio_unitario"></span>
+                                            <!-- <div class="input-group-append">
                                                 <span class="input-group-text" style="background:#fafbfc; border:none;"> <tooltip-igv /></span>
-                                            </div>
-                                        </div>
+                                            </div> -->
+                                        <!-- </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -131,13 +134,13 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { ref } from 'vue'
-import TooltipIgv from '../../../app/pages/TooltipIgv.vue'
+// import TooltipIgv from '../../../app/pages/TooltipIgv.vue'
 
 import {useCarrito} from '../../../app/stores/carrito'
 export default {
-    components:{
-        'tooltip-igv':TooltipIgv
-    },
+    // components:{
+    //     'tooltip-igv':TooltipIgv
+    // },
     setup(){
 
 
@@ -161,20 +164,58 @@ export default {
             return producto.value.tipo_operacion == '1001' ? true : false;
         })
 
+        const validarNumber = (valor)=>{
+            return !isNaN(valor) ? Number(valor) : 0;
+        }
+
+        function validarValorUnitario(e){
+            let cant = Number(e.target.value.length);
+            if(cant <= 0) {
+                $('#txt_valor_unitario').addClass('is-invalid');
+                $('#span_valor_unitario').text('Campo obligatorio');
+            }else{
+                $('#txt_valor_unitario').removeClass('is-invalid');
+                $('#span_valor_unitario').text('');
+            }
+        }
+
+            function validarPrecioUnitario(e){
+            let cant = Number(e.target.value.length);
+            if(cant <= 0) {
+                $('#txt_precio_unitario').addClass('is-invalid');
+                $('#span_precio_unitario').text('Campo obligatorio');
+            }else{
+                $('#txt_precio_unitario').removeClass('is-invalid');
+                $('#span_precio_unitario').text('');
+            }
+        }
+
         const calcularValorUnit = (e) => {
-            let precio = Number(e.target.value);
-            let operacion = (precio / 1.18);
-            producto.value.valor_unitario = (operacion).toFixed(3);
+
+            e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+            let precio = producto.value.precio_unitario;
+            if(!isNaN(precio)){
+                let operacion = (Number(precio) / 1.18);
+                producto.value.valor_unitario = (operacion).toFixed(3);
+            }else{
+                producto.value.valor_unitario = '';
+            }
+
+            // validarValorUnitario(e);
+            validarPrecioUnitario(e);
         }
 
         const calcularIgvValorUnit = computed(()=>{
-            let precio = Number(producto.value.valor_unitario);
+            let precio = validarNumber(producto.value.valor_unitario);
             let operacion =  (precio * 0.18); 
             return (operacion).toFixed(2);
         });
 
 
         const calcularPrecioUnit = (e) => {
+            validarValorUnitario(e);
+            // validarPrecioUnitario(e);
+            e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
             producto.value.precio_unitario = calcularPrecioUnitario.value;
         }
 
@@ -184,13 +225,17 @@ export default {
 
 
         const calcularPrecioUnitario = computed(()=>{ 
-            let precio = Number(producto.value.valor_unitario);
-            let operacion = sin_igv.value ? (precio + Number(calcularIgvValorUnit.value)) : precio;
-            return (operacion).toFixed(3);
+            let precio = producto.value.valor_unitario;
+            if(!isNaN(precio)){
+                let operacion = sin_igv.value ? (Number(precio) + Number(calcularIgvValorUnit.value)) : Number(precio);
+                return (operacion).toFixed(3);
+            }else{
+                return '';
+            }
         })
 
         const calcularOperacionGravada = computed(()=>{
-            let precio = Number(producto.value.valor_unitario);
+            let precio = validarNumber(producto.value.valor_unitario) ;
             let cantidad = Number(producto.value.cantidad);
             let operacion = (precio * cantidad);
             return (operacion).toFixed(2);
@@ -206,13 +251,12 @@ export default {
         });
 
         const calcularTotal = computed(()=>{
-            let precio = Number(producto.value.precio_unitario);
+            let precio = validarNumber(producto.value.precio_unitario);
             let cantidad = Number(producto.value.cantidad);
             let operacion = (precio * cantidad);
             return (operacion).toFixed(2);
         })
     
-
 
         // const productos = computed	(()=> store.productos);
 
@@ -262,13 +306,35 @@ export default {
         }
    
         function formatearNumero(e){
-           
-          if(e.target.value != ''){
-            let val = parseFloat(e.target.value.replace(",",".")).toFixed(3);
-            val = toCurrency(val);
             let op = e.target.id;
-            op == 'valor_unitario' ? producto.value.valor_unitario = val : producto.value.precio_unitario = val;
-          }
+            if(e.target.value != ''){
+                let val = parseFloat(e.target.value.replace(",",".")).toFixed(3);
+                val = toCurrency(val);
+                op == 'txt_valor_unitario' ? producto.value.valor_unitario = val : producto.value.precio_unitario = val;
+            }
+        }
+
+        // function validarInput(num,id,span){
+        //     let cant = Number(num.length);
+        //     if(cant <= 0) {
+        //         $('#'+id).addClass('is-invalid');
+        //         $('#'+span).text('Campo obligatorio');
+        //     }else{
+        //         $('#txt_valor_unitario').removeClass('is-invalid');
+        //         $('#span_valor_unitario').text('');
+        //     }
+        // }
+
+
+        const verificaDescripcion = (e) => {
+            let cant = Number(e.target.value.length);
+            if(cant < 3) {
+                $('#txt_descripcion').addClass('is-invalid');
+                $('#span_descripcion').text('La descripción debe tener al menos 3 caracteres');
+            }else{
+                $('#txt_descripcion').removeClass('is-invalid');
+                $('#span_descripcion').text('');
+            }
         }
 
 
@@ -285,7 +351,8 @@ export default {
             calcularTotal,
             formatearNumero,
             sin_igv,
-            tipoOperacion
+            tipoOperacion,
+            verificaDescripcion,
         }
     }
 }
@@ -308,6 +375,14 @@ export default {
     border-bottom: 0.06em solid #eee;
     margin-bottom: 15px;
     position: relative;
+}
+
+.is-invalid > span{
+    font-size: 12px !important;
+}
+
+.span-text{
+    font-size: 15px;
 }
 </style>
 
