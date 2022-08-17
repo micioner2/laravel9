@@ -9,7 +9,7 @@
                         <div class="col-2 d-none d-md-block">
                             <img src="images/config.png" class="product-image datos-empresa-foto" alt="Product Image">
                         </div>
-                        <div class="col-md-6 col-xs-12">
+                        <div class="col-md-5 col-xs-12">
                             <div class="row titulo-empresa">
                                 <div class="col-12"><h2 class="empresa-datos">COMERCIAL R & M</h2></div>
                                 <div class="col-12"><p class="empresa-datos">RIVERA JIMENEZ FRANCISCO</p></div>
@@ -17,7 +17,7 @@
                                 <div class="col-12"><p class="empresa-datos">Telefono.: 925817787</p></div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-xs-12">
+                        <div class="col-md-5 col-xs-12">
                             <div class="row">
                                 <div class="col-12 numero-comprobante">
                                     <div class="row">
@@ -41,7 +41,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control form-control-sm" disabled />
+                                                        <input type="text" class="form-control form-control-sm" value="0001" disabled />
                                                     </div>
                                                 </div>
                                             </div>
@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-7">
-                                    <input type="date" class="form-control form-control-sm" v-model="comprobante.fecha_emision"/>
+                                    <input type="date" class="form-control form-control-sm" v-model="comprobante.fecha_emision" :min="fecha_minima" :max="fecha_actual"/>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                     <div class="row justify-content-center align-items-center minh-100">
                         <div class="col-md-3">
                            <div class="form-group">
-                                <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abirModal()"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar un Item</button>
+                                <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abrirModalProducto()"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar un Item</button>
                            </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                     <td class="text-end" v-text="item.total"></td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></button> 
+                                            <button type="button" class="btn btn-warning btn-xs" @click="editarProducto(index)"><i class="fa fa-edit"></i></button> 
                                             &nbsp;&nbsp;
                                              <button type="button" class="btn btn-danger btn-xs" @click="store.deleteItem(index)"><i class="fa fa-times"></i></button>
                                         </div>
@@ -178,7 +178,7 @@
                     <div class="row justify-content-center align-items-center minh-100">
                         <div class="col-md-12">
                            <div class="form-group">
-                                <button class="btn btn-default btn-sm btn-block btn-agregar-producto"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar Observaciones o Notas</button>
+                                <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abrirModalNota"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar Observaciones o Notas</button>
                            </div>
                         </div>
                     </div>
@@ -192,7 +192,8 @@
                 
             </div>
         </div>
-        <modal-producto />
+        <modal-producto :opcion_modal="opcion_modal"/>
+        <modal-nota />
     </div>
         </div>
     </div>
@@ -200,16 +201,21 @@
 
 <script>
 import { ref } from '@vue/reactivity';
-import MoldaProducto from './ModalProducto.vue'
+import ModalProducto from './ModalProducto.vue'
+import ModalNota from './ModalNota.vue'
 import moment from 'moment';
 import {useCarrito} from '../../../app/stores/carrito';
 
 export default {
     components:{
-        'modal-producto':MoldaProducto
+        'modal-producto':ModalProducto,
+        'modal-nota' : ModalNota
     },
     setup(){
         const store = useCarrito();
+
+        const fecha_actual = moment().format("YYYY-MM-DD");
+        const fecha_minima = moment().subtract(4, 'days').format("YYYY-MM-DD");
 
         const cliente = ref({
             tipo_documento:'1',
@@ -225,7 +231,30 @@ export default {
         const opcion_icono = ref(false);
         const opcion_text_alert_documento = ref(false);
         const max_length = 8;
-        const abirModal = () =>{
+
+        const opcion_modal = ref(true);
+
+
+
+        const abrirModalProducto = () =>{
+            opcion_modal.value = true;
+            $('#modal-ingreso-producto').modal({backdrop: 'static', keyboard: false}) 
+        }
+
+        const editarProducto = (index) => {
+            opcion_modal.value = false;
+            store.index = index;
+            let item = store.arrayCarrito[index];
+            store.producto = {
+                tipo_operacion:item.tipo_operacion,
+                codigo:item.codigo,
+                unidad_medida: item.unidad_medida,
+                descripcion:item.descripcion,
+                precio_unitario:item.precio_unitario,
+                cantidad:item.cantidad,
+                valor_unitario: item.valor_unitario,
+                total:item.total
+            }
             $('#modal-ingreso-producto').modal({backdrop: 'static', keyboard: false}) 
         }
 
@@ -247,7 +276,7 @@ export default {
             // cant > longitud ? e.target.value = e.target.value.slice(0, longitud) : ''
            if(cant >= longitud){
             opcion_icono.value = true
-                var ruta = 'https://apiperu.dev/api/dni/'+cliente.value.documento+'?api_token=b7740b7d5eca9920a949834dab0f00cbeb4986c2b694562fec34a6d46e155da4';
+                var ruta = 'https://apiperu.dev/api/dni/'+cliente.value.documento+'?api_token=53972ac26112c49a8c2f374ee59d72d1784601b90a573cfcc8e77032142868b4';
                 const response = await fetch(ruta);
                 const data = await response.json();
                 setTimeout(()=>{
@@ -278,17 +307,30 @@ export default {
         function toCurrency(string){
             return string.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
         }
+
+        const abrirModalNota = () => {
+            $('#modal-nota').modal({backdrop: 'static', keyboard: false}) 
+        }
+
+        const calendar = ()  => {
+            // Calendario 
+        }
         return {   
             opcion_icono,
             max_length,
             opcion_text_alert_documento,
             cliente,
             comprobante,
-            abirModal,
+            abrirModalProducto,
+            editarProducto,
             consultarDocumento,
             handleInput,
             store,
-            toCurrency
+            toCurrency,
+            opcion_modal,
+            abrirModalNota,
+            fecha_actual,
+            fecha_minima
         }
     }
 }

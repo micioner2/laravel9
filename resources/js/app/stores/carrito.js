@@ -3,8 +3,17 @@ import { defineStore } from 'pinia'
 export const useCarrito = defineStore('carrito', {
     state: () => {
         return { 
-            productos:[],
-            arrayCarrito: []
+            producto:{
+                tipo_operacion:'1001',
+                codigo:'',
+                unidad_medida: 'NIU',
+                descripcion:'',
+                cantidad:1,
+                valor_unitario:'',
+                precio_unitario:''
+            },
+            arrayCarrito: [],
+            index:0
         }
     },
 
@@ -39,8 +48,12 @@ export const useCarrito = defineStore('carrito', {
   
 
     actions: {
-        agregarCarrito(producto) {
-            this.arrayCarrito.push(producto)
+        agregarCarrito(item) {
+            this.arrayCarrito.push(item);
+        },
+
+        editarCarrito(item) {
+            this.arrayCarrito[this.index] = item;
         },
 
         deleteItem(index){

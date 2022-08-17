@@ -61,8 +61,8 @@ import "../../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css"
 // library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
 // dom.watch()
 
-axios.defaults.baseURL ='http://10.40.128.252'
-// axios.defaults.baseURL ='http://192.168.100.226'
+// axios.defaults.baseURL ='http://10.40.128.252'
+axios.defaults.baseURL ='http://192.168.100.226'
 // axios.defaults.baseURL ='http://sistema.demo.com'
 
 
