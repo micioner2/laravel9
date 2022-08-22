@@ -40,7 +40,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Decripción Detallada" id="txt_descripcion"   v-model="producto.descripcion"/>
+                                <input type="text" class="form-control form-control-sm" placeholder="Decripción Detallada" id="txt_descripcion" v-model="producto.descripcion"/>
                                 <span v-if="v$.descripcion.$error" class="text-red">{{traductorMessage(v$.descripcion.$errors[0].$validator,v$.descripcion.$errors[0].$params.min)}}</span>
                             </div>
                         </div>

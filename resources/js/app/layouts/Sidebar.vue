@@ -30,8 +30,27 @@
                     <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
 
-
+                 
                     <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-university"></i>
+                            <p>
+                                Registros
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <router-link class="nav-link" :to="{name:'empresa'}">
+                                   <p>Empresa</p>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item">
+                    <!-- <li class="nav-item menu-open"> -->
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>

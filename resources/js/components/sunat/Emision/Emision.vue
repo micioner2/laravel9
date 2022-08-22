@@ -2,46 +2,48 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-12 offset-lg-1">
             <div class="card card-default">
-        <div class="card-header">
-            <div class="row">
-                <div class="col-12 col-empresa-datos">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-2 d-none d-md-block">
-                            <img src="images/config.png" class="product-image datos-empresa-foto" alt="Product Image">
-                        </div>
-                        <div class="col-md-5 col-xs-12">
-                            <div class="row titulo-empresa">
-                                <div class="col-12"><h2 class="empresa-datos">COMERCIAL R & M</h2></div>
-                                <div class="col-12"><p class="empresa-datos">RIVERA JIMENEZ FRANCISCO</p></div>
-                                <div class="col-12"><p class="empresa-datos">INT. 36 LOTE. 14 ABAS. ACAPULCO, PARIÑAS - TALARA - PIURA</p></div>
-                                <div class="col-12"><p class="empresa-datos">Telefono.: 925817787</p></div>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-xs-12">
+                        <div class="col-12 col-empresa-datos">
                             <div class="row">
-                                <div class="col-12 numero-comprobante">
+                                <div class="col-2 d-none d-md-block">
+                                    <img src="images/config.png" class="product-image datos-empresa-foto" alt="Product Image">
+                                </div>
+                                <div class="col-md-5 col-xs-12">
+                                    <div class="row titulo-empresa">
+                                        <div class="col-12"><h2 class="empresa-datos">COMERCIAL R & M</h2></div>
+                                        <div class="col-12"><p class="empresa-datos">RIVERA JIMENEZ FRANCISCO</p></div>
+                                        <div class="col-12"><p class="empresa-datos">INT. 36 LOTE. 14 ABAS. ACAPULCO, PARIÑAS - TALARA - PIURA</p></div>
+                                        <div class="col-12"><p class="empresa-datos">Telefono.: 925817787</p></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-xs-12">
                                     <div class="row">
-                                        <div class="col-12 text-center"><b>R.U.C. N° 10476656988</b></div>
-                                        <div class="col-12 text-center"><p>FACTURA ELECTRÓNICA</p></div>
-                                        <div class="col-12">
+                                        <div class="col-12 numero-comprobante">
                                             <div class="row">
-                                                <div class="col-5">
-                                                    <div class="form-group">
-                                                        <select class="form-control form-control-sm">
-                                                            <option value="F001">F001</option>
-                                                            <option value="F001">F002</option>
-                                                            <option value="F001">F003</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-1" style="margin:0">
-                                                    <div class="form-group">
-                                                        <b>-</b>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control form-control-sm" value="0001" disabled />
+                                                <div class="col-12 text-center"><b>R.U.C. N° 10476656988</b></div>
+                                                <div class="col-12 text-center"><p>FACTURA ELECTRÓNICA</p></div>
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <div class="form-group">
+                                                                <select class="form-control form-control-sm">
+                                                                    <option value="F001">F001</option>
+                                                                    <option value="F001">F002</option>
+                                                                    <option value="F001">F003</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-1" style="margin:0">
+                                                            <div class="form-group">
+                                                                <b>-</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control form-control-sm" value="0001" disabled />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -50,151 +52,149 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12 mb-4">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Cliente" v-model="cliente.nombre" />
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <select class="form-control col-3 form-control-sm" v-model="cliente.tipo_documento">
-                                        <option :value="1">DNI</option>
-                                        <option :value="6">RUC</option>
-                                    </select>
-                                    <input type="text" class="form-control col-8 form-control-sm" id="txt_documento" maxlength="8" v-model="cliente.documento" @input="consultarDocumento" @keydown="handleInput">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-default my-group-button btn-sm" type="submit">
-                                            <i class="icon-load" v-if="opcion_icono"></i>
-                                            <i class="fa fa-search" v-else></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="span-alert text-red" v-if="opcion_text_alert_documento">DNI inválido</p>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Dirección" v-model="cliente.direccion" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-4">
                             <div class="row">
-                                <div class="col-md-9 col-5">
+                                <div class="col-md-7">
                                     <div class="form-group">
-                                        <span>F. de Emisión</span>
+                                        <input type="text" class="form-control form-control-sm" placeholder="Cliente" v-model="cliente.nombre" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-7">
-                                    <input type="date" class="form-control form-control-sm" v-model="comprobante.fecha_emision" :min="fecha_minima" :max="fecha_actual"/>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <select class="form-control col-3 form-control-sm" v-model="cliente.tipo_documento">
+                                                <option :value="1">DNI</option>
+                                                <option :value="6">RUC</option>
+                                            </select>
+                                            <input type="text" class="form-control col-8 form-control-sm" id="txt_documento" maxlength="8" v-model="cliente.documento" @input="consultarDocumento" @keydown="handleInput">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default my-group-button btn-sm" type="submit">
+                                                    <i class="icon-load" v-if="opcion_icono"></i>
+                                                    <i class="fa fa-search" v-else></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="span-alert text-red" v-if="opcion_text_alert_documento">DNI inválido</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Dirección" v-model="cliente.direccion" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9 col-5">
+                                            <div class="form-group">
+                                                <span>F. de Emisión</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-7">
+                                            <input type="date" class="form-control form-control-sm" v-model="comprobante.fecha_emision" :min="fecha_minima" :max="fecha_actual"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <select class=" form-control form-control-sm">
+                                            <option>Venta Interna (productos/servicios)</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select class=" form-control form-control-sm">
+                                            <option>PEN - (S/) Sol</option>
+                                            <option>USD - ($/) Dollar</option>
+                                            <option>EUR - (€/) Euro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row justify-content-center align-items-center minh-100">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abrirModalProducto()"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar un Item</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <select class=" form-control form-control-sm">
-                                    <option>Venta Interna (productos/servicios)</option>
-                                    <option>Otros</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class=" form-control form-control-sm">
-                                    <option>PEN - (S/) Sol</option>
-                                    <option>USD - ($/) Dollar</option>
-                                    <option>EUR - (€/) Euro</option>
-                                </select>
-                            </div>
-                        </div>
-                      
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="row justify-content-center align-items-center minh-100">
-                        <div class="col-md-3">
-                           <div class="form-group">
-                                <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abrirModalProducto()"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar un Item</button>
-                           </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table table-sm table-bordered table-producto text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th width="10%">CANT</th>
-                                    <th width="10%">CÓDIGO</th>
-                                    <th width="50%">DESCRIPCIÓN</th>
-                                    <th width="10%">P.UNIT</th>
-                                    <th width="10%">TOTAL</th>
-                                    <th width="10%">OPCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(item,index) in store.arrayCarrito" :key="index">
-                                    <td class="text-center" v-text="item.cantidad"></td>
-                                    <td v-text="item.codigo"></td>
-                                    <td v-text="item.descripcion"></td>
-                                    <td class="text-end" v-text="item.precio_unitario"></td>
-                                    <td class="text-end" v-text="item.total"></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-warning btn-xs" @click="editarProducto(index)"><i class="fa fa-edit"></i></button> 
-                                            &nbsp;&nbsp;
-                                             <button type="button" class="btn btn-danger btn-xs" @click="store.deleteItem(index)"><i class="fa fa-times"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-end" colspan="4">Ope. Gravada:</td>
-                                    <td class="text-end">{{toCurrency((store.calcularOperacionGravada).toFixed(2))}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end" colspan="4">IGV:</td>
-                                    <td class="text-end">{{toCurrency((store.calcularIgv).toFixed(2))}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end" colspan="4">Importe Total:</td>
-                                    <td class="text-end">{{toCurrency(store.calcularTotal)}}</td>
-                                </tr>
-                            </tfoot>
-
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="row justify-content-center align-items-center minh-100">
                         <div class="col-md-12">
-                           <div class="form-group">
-                                <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abrirModalNota"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar Observaciones o Notas</button>
-                           </div>
-                        </div>
-                    </div>
-                </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered table-producto text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">CANT</th>
+                                            <th width="10%">CÓDIGO</th>
+                                            <th width="50%">DESCRIPCIÓN</th>
+                                            <th width="10%">P.UNIT</th>
+                                            <th width="10%">TOTAL</th>
+                                            <th width="10%">OPCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item,index) in store.arrayCarrito" :key="index">
+                                            <td class="text-center" v-text="item.cantidad"></td>
+                                            <td v-text="item.codigo"></td>
+                                            <td v-text="item.descripcion"></td>
+                                            <td class="text-end" v-text="item.precio_unitario"></td>
+                                            <td class="text-end" v-text="item.total"></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-warning btn-xs" @click="editarProducto(index)"><i class="fa fa-edit"></i></button> 
+                                                    &nbsp;&nbsp;
+                                                    <button type="button" class="btn btn-danger btn-xs" @click="store.deleteItem(index)"><i class="fa fa-times"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-end" colspan="4">Ope. Gravada:</td>
+                                            <td class="text-end">{{toCurrency((store.calcularOperacionGravada).toFixed(2))}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-end" colspan="4">IGV:</td>
+                                            <td class="text-end">{{toCurrency((store.calcularIgv).toFixed(2))}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-end" colspan="4">Importe Total:</td>
+                                            <td class="text-end">{{toCurrency(store.calcularTotal)}}</td>
+                                        </tr>
+                                    </tfoot>
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-sm float-right btn-emitir">Emitir Boleta de Venta</button>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row justify-content-center align-items-center minh-100">
+                                <div class="col-md-12">
+                                <div class="form-group">
+                                        <button class="btn btn-default btn-sm btn-block btn-agregar-producto" @click="abrirModalNota"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar Observaciones o Notas</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-sm float-right btn-emitir">Emitir Boleta de Venta</button>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-                
+            <modal-producto :opcion_modal="opcion_modal"/>
+            <modal-nota />
             </div>
-        </div>
-        <modal-producto :opcion_modal="opcion_modal"/>
-        <modal-nota />
-    </div>
         </div>
     </div>
 </template>

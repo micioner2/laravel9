@@ -9,6 +9,7 @@ import Main from "./app/Index.vue";
 import Dashboard from "./components/Dashboard.vue";
 import Comprobante from "./components/sunat/comprobante/Index.vue";
 import Emision from "./components/sunat/Emision/Index.vue";
+import Empresa from "./components/registros/Empresa/Index.vue";
 
 let routes = [
 
@@ -72,7 +73,17 @@ let routes = [
         meta:{
           title:'Emitir'
         }
+      },
+
+      {
+        path: '/empresa',
+        name: 'empresa',
+        component: () => Empresa,
+        meta:{
+          title:'Resgitro de Empresa'
+        }
       }
+
     ]
   },
 
