@@ -13,6 +13,7 @@ import Empresa from "./components/registros/Empresa/Index.vue";
 
 let routes = [
 
+
   {
     path: '/',
     redirect: 'login',
@@ -38,7 +39,7 @@ let routes = [
       title: 'Dashboard'
     },
     children: [
-      
+
 
       {
         path:'/:NotFound(.*)*',
@@ -55,7 +56,7 @@ let routes = [
           title:'Dashboard'
         }
       },
-    
+
 
       {
         path: '/comprobante',
@@ -67,11 +68,21 @@ let routes = [
       },
 
       {
-        path: '/emision',
-        name: 'emision',
+        path: '/emision/boleta',
+        name: 'emisionboleta',
         component: () => Emision,
         meta:{
-          title:'Emitir'
+          title:'Emitir Boleta',
+          peru:'peru 21'
+        }
+      },
+
+      {
+        path: '/emision/factura',
+        name: 'emisionfactura',
+        component: () => Emision,
+        meta:{
+          title:'Emitir Factura'
         }
       },
 
@@ -93,8 +104,8 @@ let routes = [
 
 
 const router = createRouter({
-  history: createWebHistory(),
-  // history: createWebHistory('/configure-admin/'),
+//   history: createWebHistory(),
+  history: createWebHistory('/laravel9/public'),
   routes: routes,
   linkActiveClass: 'active'
 });

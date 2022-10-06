@@ -1,25 +1,24 @@
 <template>
     <div class="wrapper">
-      
+
       <Preloader></Preloader>
       <Navbar></Navbar>
       <Sidebar></Sidebar>
 
       <div class="content-wrapper">
-        
+
         <ContentHeader></ContentHeader>
 
         <section class="content">
           <div class="container-fluid">
-            <slot></slot>           
+            <slot></slot>
           </div>
         </section>
-        
       </div>
-      
-      <Footer></Footer>
-      <ControlSidebar></ControlSidebar>
-      
+
+      <!-- <Footer></Footer> -->
+      <!-- <ControlSidebar></ControlSidebar> -->
+
     </div>
 </template>
 
@@ -65,7 +64,7 @@ export default {
   mounted() {
     this.initializeSelect2()
   },
-  
+
 
 };
 </script>

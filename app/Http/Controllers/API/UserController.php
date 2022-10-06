@@ -19,6 +19,10 @@ class UserController extends Controller
         ];
 
         if(Auth::attempt($credentials)) {
+
+            $user = User::where('email', $request->email)->firstOrFail();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             $success = true;
             $message = "User login successfully";
         } else {
@@ -27,10 +31,12 @@ class UserController extends Controller
         }
 
         $response = [
+            'access_token' => $token,
+            'token_type' => 'Bearer',
             'success' => $success,
             'message' => $message
         ];
-        
+
 
         return response()->json($response);
     }
@@ -47,18 +53,19 @@ class UserController extends Controller
 
             $success = true;
             $message = "User register successfully";
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'success' => $success,
+                'message' => $message
+            ]);
 
         } catch (\Illuminate\Database\QueryException $ex) {
             $success = false;
             $message = $ex->getMessage();
         }
-
-        $response = [
-            'success' => $success,
-            'message' => $message
-        ];
-
-        return response()->json($response);
 
     }
 

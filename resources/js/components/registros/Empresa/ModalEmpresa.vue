@@ -97,14 +97,14 @@ export default {
         const v$ = useValidate(rules,empresa)
 
 
-        
+
         async function consultarDocumento (e) {
             let cant = Number(e.target.value.length);
             let longitud = 11;
 
             // Validar que el texto ingresado sea solo numeros;
             e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
-       
+
            if(cant >= longitud){
             // opcion_icono.value = true
                 var ruta = 'https://apiperu.dev/api/ruc/'+empresa.value.ruc+'?api_token=53972ac26112c49a8c2f374ee59d72d1784601b90a573cfcc8e77032142868b4';
@@ -119,9 +119,9 @@ export default {
                         // opcion_icono.value = false
                         alert("No pudimos obtener datos del RUC " +empresa.value.ruc );
                         empresa.value = {...empresa.value,'nombre':'','direccion':''}
-                    } 
+                    }
                 }, 1000);
-           
+
             }
         }
 
@@ -129,7 +129,7 @@ export default {
         function agregarEmpresa(){
              this.v$.$validate() // checks all inputs
             if (!this.v$.$error) {
-                
+
             }
          }
 
@@ -141,7 +141,7 @@ export default {
             traducir,
             consultarDocumento,
             agregarEmpresa,
-            
+
         }
     }
 }

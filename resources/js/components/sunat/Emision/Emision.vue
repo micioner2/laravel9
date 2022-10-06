@@ -4,30 +4,30 @@
             <div class="card card-default">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-12 col-empresa-datos">
+                        <div class="col-12 mi-empresa">
                             <div class="row">
                                 <div class="col-2 d-none d-md-block">
-                                    <img src="images/config.png" class="product-image datos-empresa-foto" alt="Product Image">
+                                    <img :src="asset('images/config.png')" class="product-image foto" alt="Product Image">
                                 </div>
-                                <div class="col-md-5 col-xs-12">
-                                    <div class="row titulo-empresa">
-                                        <div class="col-12"><h2 class="empresa-datos">COMERCIAL R & M</h2></div>
-                                        <div class="col-12"><p class="empresa-datos">RIVERA JIMENEZ FRANCISCO</p></div>
-                                        <div class="col-12"><p class="empresa-datos">INT. 36 LOTE. 14 ABAS. ACAPULCO, PARIÑAS - TALARA - PIURA</p></div>
-                                        <div class="col-12"><p class="empresa-datos">Telefono.: 925817787</p></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="row info-empresa">
+                                        <div class="col-12"><b>COMERCIAL R & M</b></div>
+                                        <div class="col-12"><p>RIVERA JIMENEZ FRANCISCO</p></div>
+                                        <div class="col-12"><p>INT. 36 LOTE. 14 ABAS. ACAPULCO, PARIÑAS - TALARA - PIURA</p></div>
+                                        <div class="col-12"><p>Telefono.: 925817787</p></div>
                                     </div>
                                 </div>
-                                <div class="col-md-5 col-xs-12">
+                                <div class="col-md-4 col-xs-12">
                                     <div class="row">
-                                        <div class="col-12 numero-comprobante">
+                                        <div class="col-12 info-comprobante">
                                             <div class="row">
                                                 <div class="col-12 text-center"><b>R.U.C. N° 10476656988</b></div>
                                                 <div class="col-12 text-center"><p>FACTURA ELECTRÓNICA</p></div>
                                                 <div class="col-12">
-                                                    <div class="row">
+                                                    <div class="row tipo_comprobante">
                                                         <div class="col-5">
                                                             <div class="form-group">
-                                                                <select class="form-control form-control-sm">
+                                                                <select class="form-select form-control form-control-sm">
                                                                     <option value="F001">F001</option>
                                                                     <option value="F001">F002</option>
                                                                     <option value="F001">F003</option>
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-4">
+                        <div class="col-md-12 mb-4 formulario">
                             <div class="row">
                                 <div class="col-md-7">
                                     <div class="form-group">
@@ -62,11 +62,11 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <div class="input-group mb-3">
-                                            <select class="form-control col-3 form-control-sm" v-model="cliente.tipo_documento">
+                                            <select class="form-select form-control col-3 form-control-sm" v-model.number="cliente.tipo_documento" @change="cambiarDocumento">
                                                 <option :value="1">DNI</option>
                                                 <option :value="6">RUC</option>
                                             </select>
-                                            <input type="text" class="form-control col-8 form-control-sm" id="txt_documento" maxlength="8" v-model="cliente.documento" @input="consultarDocumento" @keydown="handleInput">
+                                            <input type="text" class="form-control col-8 form-control-sm" id="txt_documento" :maxlength="cliente.tipo_documento == 1 ? 8:11" v-model="cliente.documento" @input="consultarDocumento" @keydown="handleInput" autocomplete="off">
                                             <div class="input-group-prepend">
                                                 <button class="btn btn-default my-group-button btn-sm" type="submit">
                                                     <i class="icon-load" v-if="opcion_icono"></i>
@@ -75,7 +75,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="span-alert text-red" v-if="opcion_text_alert_documento">DNI inválido</p>
+                                    <p class="span-alert text-red" v-if="opcion_text_alert_documento" v-text="cliente.tipo_documento == 1 ? 'DNI inválido':'RUC inválido'"></p>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -90,13 +90,13 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-7">
-                                            <input type="date" class="form-control form-control-sm" v-model="comprobante.fecha_emision" :min="fecha_minima" :max="fecha_actual"/>
+                                            <input type="date" class="form-control form-control-sm" v-model="comprobante.fecha_emision" :min="fecha_minima" :max="fecha_actual" onkeydown="return false"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <select class=" form-control form-control-sm">
+                                        <select class="form-select form-control form-control-sm">
                                             <option>Venta Interna (productos/servicios)</option>
                                             <option>Otros</option>
                                         </select>
@@ -105,14 +105,14 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <select class=" form-control form-control-sm">
+                                        <select class="form-select form-control form-control-sm">
                                             <option>PEN - (S/) Sol</option>
                                             <option>USD - ($/) Dollar</option>
                                             <option>EUR - (€/) Euro</option>
                                         </select>
                                     </div>
                                 </div>
-                            
+
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -147,13 +147,13 @@
                                             <td class="text-end" v-text="item.total"></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-warning btn-xs" @click="editarProducto(index)"><i class="fa fa-edit"></i></button> 
+                                                    <button type="button" class="btn btn-warning btn-xs" @click="editarProducto(index)"><i class="fa fa-edit"></i></button>
                                                     &nbsp;&nbsp;
                                                     <button type="button" class="btn btn-danger btn-xs" @click="store.deleteItem(index)"><i class="fa fa-times"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
-                                    
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -189,7 +189,7 @@
                                 <button class="btn btn-primary btn-sm float-right btn-emitir">Emitir Boleta de Venta</button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             <modal-producto :opcion_modal="opcion_modal"/>
@@ -201,10 +201,12 @@
 
 <script>
 import { ref } from '@vue/reactivity';
+import { computed } from 'vue'
 import ModalProducto from './ModalProducto.vue'
 import ModalNota from './ModalNota.vue'
 import moment from 'moment';
 import {useCarrito} from '../../../app/stores/carrito';
+import myMinxin from '../../../app/mixin/asset'
 
 export default {
     components:{
@@ -218,11 +220,12 @@ export default {
         const fecha_minima = moment().subtract(4, 'days').format("YYYY-MM-DD");
 
         const cliente = ref({
-            tipo_documento:'1',
+            tipo_documento:1,
             documento:'',
             nombre:'',
             direccion:''
         });
+        const asset = myMinxin.methods.asset;
 
         const comprobante = ref({
             fecha_emision: moment().format("YYYY-MM-DD"),
@@ -230,15 +233,12 @@ export default {
         });
         const opcion_icono = ref(false);
         const opcion_text_alert_documento = ref(false);
-        const max_length = 8;
 
         const opcion_modal = ref(true);
 
-
-
         const abrirModalProducto = () =>{
             opcion_modal.value = true;
-            $('#modal-ingreso-producto').modal({backdrop: 'static', keyboard: false}) 
+            $('#modal-ingreso-producto').modal({backdrop: 'static', keyboard: false})
         }
 
         const editarProducto = (index) => {
@@ -255,18 +255,33 @@ export default {
                 valor_unitario: item.valor_unitario,
                 total:item.total
             }
-            $('#modal-ingreso-producto').modal({backdrop: 'static', keyboard: false}) 
+            $('#modal-ingreso-producto').modal({backdrop: 'static', keyboard: false})
+        }
+
+        const longitud_tipo_documento = computed(()=>{
+            return cliente.value.tipo_documento == 1 ? 8 : 11;
+        })
+
+        const ruta_api = computed(()=>{
+            let ruta = cliente.value.tipo_documento == 1 ? 'https://apiperu.dev/api/dni/' : 'https://apiperu.dev/api/ruc/';
+            return ruta+cliente.value.documento+'?api_token=d18e4d0498a835b4d832a9cd818f76a01154dac80b9355c14a2444f24f21cd56';
+        })
+        const cambiarDocumento = () =>{
+            cliente.value.documento = '';
+            cliente.value.nombre = '';
+            cliente.value.direccion = '';
+            $('#txt_documento').focus();
         }
 
         async function consultarDocumento (e) {
             // Validar el maximo de caracteres
             let cant = Number(e.target.value.length);
-            let longitud = 8;
+            let longitud = longitud_tipo_documento.value ;
 
             // Validar que el texto ingresado sea solo numeros;
             e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
             // alerta
-            if(cant >= 1 && cant <= 7) {
+            if(cant >= 1 && cant <= (longitud - 1)) {
                 $('#txt_documento').addClass('is-invalid');
                 opcion_text_alert_documento.value = true;
             }else{
@@ -275,28 +290,32 @@ export default {
             }
             // cant > longitud ? e.target.value = e.target.value.slice(0, longitud) : ''
            if(cant >= longitud){
-            opcion_icono.value = true
-                var ruta = 'https://apiperu.dev/api/dni/'+cliente.value.documento+'?api_token=53972ac26112c49a8c2f374ee59d72d1784601b90a573cfcc8e77032142868b4';
+                opcion_icono.value = true
+                var ruta = ruta_api.value;
                 const response = await fetch(ruta);
                 const data = await response.json();
                 setTimeout(()=>{
                     if(data.success){
-                        cliente.value = {...cliente.value,'nombre':data.data.nombre_completo, 'documento':cliente.value.documento,'direccion':data.data.direccion}
+                        let mi_cliente = data.data;
+                        if(cliente.value.tipo_documento == 1)
+                            cliente.value = {...cliente.value,'nombre':mi_cliente.nombre_completo, 'documento':cliente.value.documento,'direccion':mi_cliente.direccion}
+                        else
+                            cliente.value = {...cliente.value,'nombre':mi_cliente.nombre_o_razon_social, 'documento':cliente.value.documento,'direccion':mi_cliente.direccion}
                         opcion_icono.value = false
                     }else{
                         opcion_icono.value = false
-                        alert("No pudimos obtener datos del DNI " +cliente.value.documento );
+                        alert("No pudimos obtener datos del documento " +cliente.value.documento );
                         cliente.value = {...cliente.value,'nombre':'','direccion':''}
-                    } 
+                    }
                 }, 1000);
-           
+
             }
         }
 
         const handleInput = (e) =>{
 
             let cant = e.target.value.length;
-          
+
             if(e.key === "Backspace" || e.key === "ArrowLeft"){
                 if(cant <= 8){
                     cliente.value = {...cliente.value,'nombre':'','direccion':''}
@@ -309,18 +328,16 @@ export default {
         }
 
         const abrirModalNota = () => {
-            $('#modal-nota').modal({backdrop: 'static', keyboard: false}) 
+            $('#modal-nota').modal({backdrop: 'static', keyboard: false})
         }
 
-        const calendar = ()  => {
-            // Calendario 
-        }
-        return {   
+        return {
             opcion_icono,
-            max_length,
             opcion_text_alert_documento,
             cliente,
             comprobante,
+            asset,
+            cambiarDocumento,
             abrirModalProducto,
             editarProducto,
             consultarDocumento,
@@ -336,40 +353,42 @@ export default {
 }
 </script>
 
-
-
-
-                          
-
-
 <style>
-                  
 
-.col-empresa-datos{
+.mi-empresa .foto{
+    width: 80% !important;
+    margin-left: 20px;
+}
+
+.info-empresa > div >p{
+    margin-bottom: 0 !important;
+}
+
+.info-empresa > div:last-child{
     margin-bottom: 25px;
 }
 
-.datos-empresa-foto{
-    width: 35% !important;
-    margin-top: 0px;
-    margin-left: 20px;
-}
-.titulo-empresa .empresa-datos{
-    margin-bottom: 0 !important;
-   
-}
-.titulo-empresa h2{
+.info-empresa h2{
     font-size: 22px;
     font-weight: bold;
 }
-.titulo-empresa p{
+.info-empresa p{
+    font-size: 13px;
+}
+.info-empresa .direccion{
     font-size: 13px;
 }
 
-.numero-comprobante{
+.formulario{
+    margin-top: 15px;
+}
+.info-comprobante{
     border: dashed 1px #111;
 }
 
+.tipo_comprobante{
+    margin-top: -10px !important;
+}
 .select-comprobante{
     width: 10% !important;
 }
@@ -427,3 +446,6 @@ export default {
 }
 
 </style>
+
+
+

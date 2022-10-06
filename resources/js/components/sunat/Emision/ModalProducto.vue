@@ -9,7 +9,7 @@
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6 offset-md-3">
                                     <div class="form-group">
-                                        <select class="form-control form-control-sm" v-model="producto.tipo_operacion"
+                                        <select class="form-select form-control form-control-sm" v-model="producto.tipo_operacion"
                                             @change="tipoOperacion">
                                             <option value="1001"> Operación Gravada</option>
                                             <option value="1003"> Operación Exonerada</option>
@@ -23,17 +23,19 @@
                                 <input type="number" class="form-control form-control-sm" v-model="producto.cantidad" min="0" oninput="validity.valid||(value='');"/>
                             </div>
                         </div>
-                        <div class="col-md-4 col-7">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Código" v-model="producto.codigo" />
-                            </div>
-                        </div>
+
                         <div class="col-md-5">
                             <div class="form-group">
                                 <select class="form-control form-control-sm" v-model="producto.unidad_medida">
                                     <option value="NIU">Unidades</option>
                                     <option value="ZZ">Servicios</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-7">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm" placeholder="Código" v-model="producto.codigo" />
                             </div>
                         </div>
 
@@ -49,7 +51,7 @@
 
                                 <div class="col-md-6 offset-md-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Valor unitario" id="txt_valor_unitario" v-model="producto.valor_unitario" @input="calcularPrecioUnit" @change="formatearNumero" />                               
+                                        <input type="text" class="form-control form-control-sm" placeholder="Valor unitario" id="txt_valor_unitario" v-model="producto.valor_unitario" @input="calcularPrecioUnit" @change="formatearNumero" />
                                         <span v-if="v$.valor_unitario.$error" class="text-red">{{traductorMessage(v$.valor_unitario.$errors[0].$validator)}}</span>
                                     </div>
                                 </div>
@@ -155,7 +157,7 @@ export default {
     },
 
     setup(props) {
-        
+
         const store = useCarrito();
         const producto = storeToRefs(store).producto;
         // const producto = mipe.producto;
@@ -187,11 +189,11 @@ export default {
                 default:
                     return ''
             }
-        
+
         }
 
 
-        
+
         const verifica_igv = computed(()=>{
             return producto.value.tipo_operacion == '1001' ? true : false;
         })
@@ -200,7 +202,7 @@ export default {
             return !isNaN(valor) ? Number(valor) : 0;
         }
 
- 
+
         const calcularValorUnit = (e) => {
             e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
             let precio = producto.value.precio_unitario;
@@ -215,7 +217,7 @@ export default {
 
         const calcularIgvValorUnit = computed(()=>{
             let precio = validarNumber(producto.value.valor_unitario);
-            let operacion =  (precio * 0.18); 
+            let operacion =  (precio * 0.18);
             return (operacion).toFixed(2);
         });
 
@@ -230,7 +232,7 @@ export default {
         }
 
 
-        const calcularPrecioUnitario = computed(()=>{ 
+        const calcularPrecioUnitario = computed(()=>{
             let precio = producto.value.valor_unitario;
             if(!isNaN(precio)){
                 let operacion = verifica_igv.value ? (Number(precio) + Number(calcularIgvValorUnit.value)) : Number(precio);
@@ -248,7 +250,7 @@ export default {
         });
 
 
-        
+
         const calcularIgv = computed(()=>{
             let igv = Number(calcularIgvValorUnit.value);
             let cantidad = Number(producto.value.cantidad);
@@ -262,7 +264,7 @@ export default {
             let operacion = (precio * cantidad);
             return (operacion).toFixed(2);
         })
-    
+
 
         // const productos = computed	(()=> store.productos);
 
@@ -301,7 +303,7 @@ export default {
             $('#modal-ingreso-producto').modal('hide');
             limpiar();
         }
-        
+
 
         function limpiar () {
             producto.value ={
@@ -320,7 +322,7 @@ export default {
         function toCurrency(string){
             return string.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1");
         }
-   
+
         function formatearNumero(e){
             let op = e.target.id;
             if(e.target.value != ''){
@@ -358,7 +360,7 @@ export default {
             props,
         }
     }
-  
+
 }
 </script>
 

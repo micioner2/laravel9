@@ -81,7 +81,7 @@
 
 
         beforeRouteEnter(to, from, next) {
-            
+
             if (window.Laravel.isLoggedin) {
                 return next('dashboard');
             }

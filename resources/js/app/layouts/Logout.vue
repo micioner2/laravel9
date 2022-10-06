@@ -1,7 +1,7 @@
 <template>
 <li class="nav-item dropdown user user-menu">
     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-        <img src="images/user2-160x160.jpg" class="user-image img-circle elevation-2">
+        <img :src="asset('images/user2-160x160.jpg')" class="user-image img-circle elevation-2">
         <span class="hidden-xs">{{name}}</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+    import myMinxin from '../../app/mixin/asset'
 export default {
 
     data(){
@@ -50,6 +51,9 @@ export default {
         }
     },
     methods:{
+        asset(name){
+            return myMinxin.methods.asset(name)
+        },
         logout(e) {
             e.preventDefault()
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
